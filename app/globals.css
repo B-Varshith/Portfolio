@@ -1,26 +1,272 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* ── Surfaces ───────────────────────────────────────────── */
+  --color-void: #040406;
+  --color-ink: #07080a;
+  --color-panel: #0b0d10;
+  --color-panel-2: #101317;
+  --color-edge: #1a1e24;
+  --color-edge-2: #262c34;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* ── Text ───────────────────────────────────────────────── */
+  --color-fg: #e9ecf1;
+  --color-dim: #9aa4b2;
+  --color-mute: #6b7280;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* ── Accents ────────────────────────────────────────────── */
+  --color-mint: #4ef0c1;
+  --color-mint-deep: #17b48a;
+  --color-violet: #8b7cff;
+  --color-amber: #ffc24b;
+  --color-rose: #ff6b81;
+  --color-sky: #56ccff;
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --animate-pulse-soft: pulse-soft 3.6s ease-in-out infinite;
+  --animate-drift: drift 18s ease-in-out infinite;
+  --animate-scan: scan 6s linear infinite;
+  --animate-blink: blink 1.05s steps(2, start) infinite;
+  --animate-spin-slow: spin 26s linear infinite;
+  --animate-gradient-x: gradient-x 9s ease infinite;
+  --animate-float-y: float-y 7s ease-in-out infinite;
+
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -18px, 0);
+    }
+  }
+  @keyframes scan {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(1200%);
+    }
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes gradient-x {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+  @keyframes float-y {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
   }
 }
 
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ────────────────────────────────────────────────────────────
+   Base
+──────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+}
+
+* {
+  border-color: var(--color-edge);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  background: var(--color-void);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-void);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-mint) 32%, transparent);
+  color: #ffffff;
+}
+
+/* Custom cursor: only on precise pointers */
+@media (pointer: fine) {
+  body.has-cursor,
+  body.has-cursor * {
+    cursor: none;
+  }
+  body.has-cursor input,
+  body.has-cursor textarea,
+  body.has-cursor [contenteditable="true"] {
+    cursor: text;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-mint);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Thin, unobtrusive scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: #1e232b;
+  border-radius: 99px;
+  border: 3px solid var(--color-void);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2c333d;
+}
+
+/* ────────────────────────────────────────────────────────────
+   Utilities
+──────────────────────────────────────────────────────────── */
+@utility hairline {
+  border: 1px solid var(--color-edge);
+}
+
+@utility glass {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.045),
+    rgba(255, 255, 255, 0.012)
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-fg) 0%,
+    var(--color-mint) 45%,
+    var(--color-violet) 100%
+  );
+  background-size: 180% 180%;
+  animation: gradient-x 9s ease infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-glow {
+  text-shadow: 0 0 26px color-mix(in oklab, var(--color-mint) 55%, transparent);
+}
+
+@utility grid-bg {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@utility grid-bg-fine {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@utility radial-fade {
+  background: radial-gradient(
+    60% 60% at 50% 40%,
+    rgba(78, 240, 193, 0.09) 0%,
+    rgba(139, 124, 255, 0.05) 40%,
+    transparent 75%
+  );
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+/* Marquee for philosophy / logo strips */
+@utility animate-marquee {
+  animation: marquee 38s linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+}
+
+/* Reduced motion: kill non-essential movement */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
