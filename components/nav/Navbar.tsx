@@ -2,11 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Menu, X, RotateCcw, Command } from "lucide-react";
+import { Menu, X, Command } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { GithubIcon } from "@/components/ui/BrandIcons";
-import { useGame } from "@/lib/game-context";
-import { TOTAL_LEVELS } from "@/data/puzzles";
 
 export const NAV_ITEMS = [
   { id: "home", label: "Home" },
@@ -24,7 +22,6 @@ export function Navbar() {
   const [active, setActive] = useState<string>("home");
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
-  const { corePercent, state, reset } = useGame();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -90,7 +87,7 @@ export function Navbar() {
               <span className="absolute -inset-1 rounded-md bg-mint/10 opacity-0 blur-md transition group-hover:opacity-100" />
             </span>
             <span className="hidden font-mono text-[11px] tracking-[0.24em] text-dim uppercase sm:block">
-              Varshith<span className="text-mute">.os</span>
+              Varshith<span className="text-mute">.dev</span>
             </span>
           </button>
 
@@ -134,15 +131,6 @@ export function Navbar() {
               K
             </button>
 
-            <button
-              onClick={reset}
-              className="hidden items-center gap-1.5 rounded-lg border border-edge bg-panel px-2.5 py-1.5 font-mono text-[10px] tracking-widest text-mute uppercase transition hover:border-rose/40 hover:text-rose md:flex"
-              title="Reset challenge progress"
-            >
-              <RotateCcw className="h-3 w-3" aria-hidden />
-              Reset
-            </button>
-
             <a
               href="https://github.com/B-Varshith"
               target="_blank"
@@ -163,22 +151,6 @@ export function Navbar() {
           </div>
         </nav>
       </header>
-
-      {/* progress rail */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 z-40 flex justify-center px-3 pt-3 sm:pt-4">
-        <div className="mt-[3.1rem] flex w-full max-w-6xl items-center gap-3 px-1 sm:mt-[3.4rem]">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <span className="font-mono text-[10px] tracking-[0.2em] text-mute uppercase">
-            challenges{" "}
-            <span className="text-mint">
-              {Math.round((corePercent / 100) * TOTAL_LEVELS)}/{TOTAL_LEVELS}
-            </span>
-            <span className="mx-2 text-edge-2">·</span>
-            score{" "}
-            <span className="text-fg">{state.score.toLocaleString()}</span>
-          </span>
-        </div>
-      </div>
 
       {/* mobile menu */}
       <AnimatePresence>
@@ -241,22 +213,6 @@ export function Navbar() {
                   </motion.li>
                 ))}
               </ul>
-
-              <div className="mt-6 flex items-center justify-between font-mono text-[10px] tracking-widest text-mute uppercase">
-                <span>
-                  progress{" "}
-                  <span className="text-mint">{corePercent}%</span>
-                </span>
-                <button
-                  onClick={() => {
-                    setOpen(false);
-                    reset();
-                  }}
-                  className="text-rose/80 hover:text-rose"
-                >
-                  reset game
-                </button>
-              </div>
             </motion.div>
           </motion.div>
         )}

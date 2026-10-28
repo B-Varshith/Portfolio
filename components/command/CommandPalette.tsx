@@ -9,13 +9,10 @@ import {
   Trophy,
   User,
   Wrench,
-  RotateCcw,
-  Gamepad2,
   Terminal,
   Cpu,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/BrandIcons";
-import { useGame } from "@/lib/game-context";
 
 interface Cmd {
   id: string;
@@ -37,7 +34,6 @@ export function CommandPalette() {
   const [index, setIndex] = useState(0);
   const [secret, setSecret] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { reset, state } = useGame();
 
   const commands = useMemo<Cmd[]>(
     () => [
@@ -50,11 +46,9 @@ export function CommandPalette() {
       { id: "experience", label: "/experience", hint: "Work + education timeline", icon: Cpu, keywords: ["experience", "work", "dentsu", "job"], run: () => goTo("experience") },
       { id: "skills", label: "/skills", hint: "Languages, frameworks, algorithms", icon: Wrench, keywords: ["skills", "stack", "tech"], run: () => goTo("skills") },
       { id: "contact", label: "/contact", hint: "Get in touch", icon: Sparkles, keywords: ["contact", "email", "hire"], run: () => goTo("contact") },
-      { id: "game", label: "/game", hint: "Replay the challenge from level 1", icon: Gamepad2, keywords: ["game", "replay", "challenge", "play"], run: () => { reset(); setTimeout(() => window.scrollTo({ top: 0 }), 60); } },
-      { id: "reset", label: "/reset", hint: "Clear saved progress", icon: RotateCcw, keywords: ["reset", "clear", "wipe"], run: () => reset() },
       { id: "secret", label: "/secret", hint: "You weren't supposed to find this yet", icon: Sparkles, keywords: ["secret", "hidden", "easter"], run: () => setSecret(true) },
     ],
-    [reset],
+    [],
   );
 
   const filtered = useMemo(() => {
@@ -177,14 +171,14 @@ export function CommandPalette() {
                     this very palette.
                   </p>
                   <p className="mt-2 text-mute">
-                    score: {state.score} · keep exploring.
+                    keep exploring.
                   </p>
                 </motion.div>
               )}
 
               {filtered.length === 0 && (
                 <p className="px-3 py-6 text-center font-mono text-xs text-mute">
-                  no command matches “{query}”
+                  no command matches &ldquo;{query}&rdquo;
                 </p>
               )}
 
@@ -220,7 +214,7 @@ export function CommandPalette() {
 
             <div className="flex items-center justify-between border-t border-edge px-4 py-2.5 font-mono text-[10px] tracking-widest text-mute uppercase">
               <span>↑↓ navigate · ⏎ run</span>
-              <span>VARSHITH.OS</span>
+              <span>VARSHITH.DEV</span>
             </div>
           </motion.div>
         </motion.div>

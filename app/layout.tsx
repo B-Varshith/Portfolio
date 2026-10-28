@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s — Varshith",
   },
   description:
-    "Portfolio of Varshith, a software engineer and AI developer building agentic AI platforms, full-stack products and competitive programming systems. Solve the challenges to unlock it.",
+    "Portfolio of Varshith, a software engineer and AI developer building agentic AI platforms, full-stack products and competitive programming systems.",
   keywords: [
     "Varshith",
     "software engineer",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     type: "website",
     title: `${profile.name} — Software Engineer · AI Developer`,
     description:
-      "An interactive developer portfolio disguised as an investigation. Solve the puzzles to unlock the profile.",
+      "Developer portfolio showcasing software engineering, agentic AI, and competitive programming.",
     url: profile.github,
     siteName: "VARSHITH.OS",
   },
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${profile.name} — Software Engineer · AI Developer`,
     description:
-      "An interactive developer portfolio disguised as an investigation. Solve the puzzles to unlock the profile.",
+      "Developer portfolio showcasing software engineering, agentic AI, and competitive programming.",
   },
   robots: { index: true, follow: true },
 };

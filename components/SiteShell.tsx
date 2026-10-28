@@ -1,8 +1,6 @@
 "use client";
 
-import { GameProvider, useGame } from "@/lib/game-context";
 import { CustomCursor } from "@/components/cursor/CustomCursor";
-import { GameShell } from "@/components/game/GameShell";
 import { CommandPalette } from "@/components/command/CommandPalette";
 import { EasterEggs } from "@/components/easter/EasterEggs";
 import { Navbar } from "@/components/nav/Navbar";
@@ -21,16 +19,10 @@ import { Contact } from "@/components/portfolio/Contact";
 
 /* If you're reading this, you're playing the game correctly. */
 
-function Portfolio() {
-  const { phase, hydrated } = useGame();
-  const locked = hydrated && phase !== "done";
-
+export function SiteShell() {
   return (
-    <div
-      inert={locked}
-      aria-hidden={locked}
-      className={locked ? "pointer-events-none select-none" : undefined}
-    >
+    <>
+      <CustomCursor />
       <Navbar />
       <main>
         <Hero />
@@ -46,18 +38,8 @@ function Portfolio() {
         <Contact />
       </main>
       <Footer />
-    </div>
-  );
-}
-
-export function SiteShell() {
-  return (
-    <GameProvider>
-      <CustomCursor />
-      <Portfolio />
-      <GameShell />
       <CommandPalette />
       <EasterEggs />
-    </GameProvider>
+    </>
   );
 }
